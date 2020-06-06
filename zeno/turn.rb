@@ -1,9 +1,6 @@
 module Turn
   #自分のターンのメソッド。カード番号により分岐
-  def self.mytern(myhand, pchand, xeno, hero, mydiscard, pcdiscard, pcguard, card)
-    mywiseman = 0
-    myguard = 0
-
+  def self.myturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, pcguard, card)
     case card
     when 1
       if pcguard == 1

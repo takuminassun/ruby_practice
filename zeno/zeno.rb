@@ -17,7 +17,9 @@ mydiscard = []
 pcdiscard = []
 
 #初めの自分のターンに、ノーメソッドエラーを出さないようにする為に定義。
+myguard = 0
 pcguard = 0
+mywiseman = 0
 pcwiseman = 0
 
 #戦闘開始
@@ -25,6 +27,10 @@ p "あなたが先攻です"
 
 while true
   p "あなたのターンです"
+
+  #ここから自分のターンにループ。前回選んだカードが７番だった場合、賢者の効果を発動する。
+  WiseMan.mywisemans(deck, myhand) if mywiseman == 1
+
   #カードを１枚ドローする。賢者の効果を使用済みの場合、メソッドを飛ばす。
   if myhand.length == 1
     myhand[1] = deck.delete_at(0)
@@ -77,13 +83,13 @@ while true
   mydiscard << myhand.delete_at(myhand.find_index(selected_number)) 
 
   #選んだカードの番号によって分岐が別れる
-  myguard, mywiseman = Turn.mytern(myhand, pchand, deck, hero, mydiscard, pcdiscard, pcguard, selected_number)
-
+  myguard, mywiseman = Turn.myturn(myhand, pchand, deck, hero, mydiscard, pcdiscard, pcguard, selected_number)
 
   p 'あなたのターンは終了です'
   puts $line
-  p '相手のターンです'
+
   #ここから相手のターン
+  p '相手のターンです'
   Turn.decknone(myhand, pchand) if deck == []
 
   #相手が前のターンに賢者を使った場合カードを３ドローする。xeno.firstでデッキの枚数が少なくてもエラーにならない
@@ -103,6 +109,4 @@ while true
 
   p '相手のターンは終了です'
   puts $line
-  #ここから自分のターンにループ。前回選んだカードが７番だった場合、賢者の効果を発動する。
-  WiseMan.mywisemans(deck, myhand) if mywiseman == 1
 end
