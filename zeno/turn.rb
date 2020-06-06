@@ -159,7 +159,7 @@ module Turn
           puts "相手が持っていたのは#{pchand[0]}番と#{pchand[1]}番のカードです"
           puts "どちらのカードを指定しますか？"
           puts "あなたの手札にある現在のカードは#{myhand[0]}番のカードです"
-          $line
+          puts $line
           input = gets.to_i
           pcdiscard = pchand.delete_at(pchand.find_index(input))
           puts "#{input}番のカードを捨てさせました"
@@ -172,7 +172,6 @@ module Turn
     else
       puts "エラーです"
     end
-    $line
     return myguard, mywiseman
   end
 
@@ -320,7 +319,6 @@ module Turn
     else
       puts "エラーです"
     end
-    $line
     return pcguard, pcwiseman
   end
 

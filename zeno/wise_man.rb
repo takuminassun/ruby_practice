@@ -8,7 +8,7 @@ module WiseMan
     end
     puts "あなたの現在の手札にあるのは#{myhand[0]}番のカードです。"
     puts "どのカードを手札に加えますか。"
-    $line
+    puts $line
     input = gets.to_i
 
     while !wiseman.any?(input) do
@@ -35,6 +35,6 @@ module WiseMan
 
     puts "相手は賢者（選択）のカードの効果により、カードをドローしました"
     puts "カードを一枚選んで残りを山札に戻し、シャッフルしました"
-    $line
+    puts $line
   end
 end
