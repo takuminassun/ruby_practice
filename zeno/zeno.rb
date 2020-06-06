@@ -3,7 +3,7 @@ require './turn'
 require './choice'
 require './wise_man'
 
-line = "------------------------------------------"
+$line = p "------------------------------------------"
 xeno = [10,9,8,8,7,7,6,6,5,5,4,4,3,3,2,2,1,1].shuffle
 
 #自分の手札カード
@@ -35,21 +35,21 @@ while true
     myhand[1] = xeno.delete_at(0)
     puts "あなたはカードをドローしました"
     puts "引いたのは#{myhand[1]}番のカードです"
-    puts line
+    $line
   end
 
   #カード選択画面を表示
-  input = Choice.choice(myhand, line)
+  input = Choice.choice(myhand)
 
   #使用できるカードがない場合は、こちらのメソッドにループする。
   while (input != myhand[0] && input != myhand[1]) || input == 10 || input == 11 do
     case input
     when 0
-      Explanation.tutorial(line)
-      input = Choice.choice(myhand, line)
+      Explanation.tutorial
+      input = Choice.choice(myhand)
     when 10
       puts "英雄のカードは手札から使用することができません"
-      input = Choice.choice(myhand, line)
+      input = Choice.choice(myhand)
     when 11
       puts "自分の使用済みカード"
       if mydiscard == []
@@ -67,11 +67,11 @@ while true
           puts "#{pcdis}番"
         end
       end
-      puts line
-      input = Choice.choice(myhand, line)
+      $line
+      input = Choice.choice(myhand)
     else
       puts "その番号のカードは手札にありません"
-      input= Choice.choice(myhand, line)
+      input= Choice.choice(myhand)
     end
   end
 
@@ -79,7 +79,7 @@ while true
   mydiscard << myhand.delete_at(myhand.find_index(input)) 
 
   #選んだカードの番号によって分岐が別れる
-  myguard, mywiseman = Turn.mytern(myhand, pchand, xeno, hero, mydiscard, pcdiscard, line, pcguard, input)
+  myguard, mywiseman = Turn.mytern(myhand, pchand, xeno, hero, mydiscard, pcdiscard, pcguard, input)
 
   #ここから相手のターン
   if xeno == [] 
@@ -88,7 +88,7 @@ while true
 
   #相手が前のターンに賢者を使った場合カードを３ドローする。xeno.firstでデッキの枚数が少なくてもエラーにならない
   if pcwiseman == 1
-    WiseMan.pcwisemans(line, xeno, pchand)
+    WiseMan.pcwisemans(xeno, pchand)
   end
 
   if pchand.length == 1
@@ -98,7 +98,7 @@ while true
 
   input = pchand.delete_at(pchand.find_index(pchand.min))
   pcdiscard << input
-  pcguard, pcwiseman = Turn.pcturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, line, myguard, input)
+  pcguard, pcwiseman = Turn.pcturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, myguard, input)
 
   #山札のカードがなくなった場合、互いのカードの数字の大きさで勝敗を決める。
   if xeno == []
@@ -107,6 +107,6 @@ while true
 
   #ここから自分のターンにループ。前回選んだカードが７番だった場合、賢者の効果を発動する。
   if mywiseman == 1
-    WiseMan.mywisemans(line, xeno, myhand)
+    WiseMan.mywisemans(xeno, myhand)
   end
 end

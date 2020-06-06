@@ -1,6 +1,6 @@
 module Turn
   #自分のターンのメソッド。カード番号により分岐
-  def self.mytern(myhand, pchand, xeno, hero, mydiscard, pcdiscard, line, pcguard, card)
+  def self.mytern(myhand, pchand, xeno, hero, mydiscard, pcdiscard, pcguard, card)
     mywiseman = 0
     myguard = 0
 
@@ -159,7 +159,7 @@ module Turn
           puts "相手が持っていたのは#{pchand[0]}番と#{pchand[1]}番のカードです"
           puts "どちらのカードを指定しますか？"
           puts "あなたの手札にある現在のカードは#{myhand[0]}番のカードです"
-          puts line
+          $line
           input = gets.to_i
           pcdiscard = pchand.delete_at(pchand.find_index(input))
           puts "#{input}番のカードを捨てさせました"
@@ -172,12 +172,12 @@ module Turn
     else
       puts "エラーです"
     end
-    puts line
+    $line
     return myguard, mywiseman
   end
 
   #相手ターンのメソッド。カード番号により分岐。
-  def self.pcturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, line, myguard, input)
+  def self.pcturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, myguard, input)
     #相手がカードを引こうとして山札にカードがなかった場合、数字の大きさで勝敗を決する。
     pcguard = 0
     pcwiseman = 0
@@ -320,7 +320,7 @@ module Turn
     else
       puts "エラーです"
     end
-    puts line
+    $line
     return pcguard, pcwiseman
   end
 
