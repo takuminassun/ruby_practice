@@ -83,7 +83,7 @@ while true
 
   #ここから相手のターン
   if xeno == [] 
-    decknone(myhand, pchand)
+    Turn.decknone(myhand, pchand)
   end
 
   #相手が前のターンに賢者を使った場合カードを３ドローする。xeno.firstでデッキの枚数が少なくてもエラーにならない
@@ -102,7 +102,7 @@ while true
 
   #山札のカードがなくなった場合、互いのカードの数字の大きさで勝敗を決める。
   if xeno == []
-    decknone(myhand, pchand)
+    Turn.decknone(myhand, pchand)
   end
 
   #ここから自分のターンにループ。前回選んだカードが７番だった場合、賢者の効果を発動する。
