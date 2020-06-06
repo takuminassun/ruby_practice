@@ -27,7 +27,7 @@ p "あなたが先攻です"
 
 while true
   p "あなたのターンです"
-
+  p mywiseman
   #ここから自分のターンにループ。前回選んだカードが７番だった場合、賢者の効果を発動する。
   WiseMan.mywisemans(deck, myhand) if mywiseman == 1
 
