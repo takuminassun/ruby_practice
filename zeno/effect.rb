@@ -7,29 +7,8 @@ module Effect
       puts "少年（革命）のカードを使用しました"
       if (mydiscard + pcdiscard).count(1) == 2
         puts "少年のカードが使われたのは2枚目のため、公開処刑を発動します"
-        ################
-        if xeno == []
-          puts "山札にカードがない為、効果を発動しません"
-          puts $line
-        else
-          hand[1] = xeno.delete_at(0)
-          puts "相手がカードをドローし、持っているカードはオープンします"
-          puts "相手が持っていたのは#{hand[0]}番と#{hand[1]}番のカードです"
-          puts "どちらのカードを指定しますか？"
-          puts $line
-    
-          if hoge == 0
-            puts "あなたの手札にある現在のカードは#{myhand[0]}番のカードです"
-            select_num = gets.to_i
-            pcdiscard = hand.delete_at(hand.find_index(select_num))
-          else
-            hand[1] = xeno.delete_at(0)
-            select_num = hand.delete_at(hand.find_index(hand.max))
-            mydiscard << select_num
-          end
-          puts "#{select_num}番のカードを捨てさせました"
-        end
-        ##########################
+        select_num = 0
+        public_execution(xeno, hand, hoge, myhand, discard, select_num)
         if select_num == 10
           puts "英雄（潜伏・転生）の効果により、転生札よりカードを引いて復活します"
           hand[0] = hero
@@ -175,27 +154,8 @@ module Effect
       effect_four(num)
     else
       puts "皇帝（公開処刑）のカードを使用しました"
-      if xeno == []
-        puts "山札にカードがない為、効果を発動しません"
-        puts $line
-      else
-        hand[1] = xeno.delete_at(0)
-        puts "相手がカードをドローし、持っているカードはオープンします"
-        puts "相手が持っていたのは#{hand[0]}番と#{hand[1]}番のカードです"
-        puts "どちらのカードを指定しますか？"
-        puts $line
-  
-        if hoge == 0
-          puts "あなたの手札にある現在のカードは#{myhand[0]}番のカードです"
-          select_num = gets.to_i
-          discard = hand.delete_at(hand.find_index(select_num))
-        else
-          hand[1] = xeno.delete_at(0)
-          select_num = hand.delete_at(hand.find_index(hand.max))
-          discard << select_num
-        end
-        puts "#{select_num}番のカードを捨てさせました"
-      end
+      select_num = 0
+      public_execution(xeno, hand, hoge, myhand, discard, select_num)
       if select_num == 10
         puts "英雄のカードは転生できない為、あなたの勝利です"
         exit
@@ -207,7 +167,27 @@ module Effect
     puts "#{num}番の効果を発動しようとしましたが、相手の乙女（守護）のカードの効果により無効化されます"
   end
 
-  def self.open_death(xeno, hand, hoge, myhand, discard, select_num)
-    
+  def self.public_execution(xeno, hand, hoge, myhand, discard, select_num)
+    if xeno == []
+      puts "山札にカードがない為、効果を発動しません"
+      puts $line
+    else
+      hand[1] = xeno.delete_at(0)
+      puts "相手がカードをドローし、持っているカードはオープンします"
+      puts "相手が持っていたのは#{hand[0]}番と#{hand[1]}番のカードです"
+      puts "どちらのカードを指定しますか？"
+      puts $line
+
+      if hoge == 0
+        puts "あなたの手札にある現在のカードは#{myhand[0]}番のカードです"
+        select_num = gets.to_i
+        pcdiscard = hand.delete_at(hand.find_index(select_num))
+      else
+        hand[1] = xeno.delete_at(0)
+        select_num = hand.delete_at(hand.find_index(hand.max))
+        mydiscard << select_num
+      end
+      puts "#{select_num}番のカードを捨てさせました"
+    end
   end
 end
