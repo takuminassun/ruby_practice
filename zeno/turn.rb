@@ -1,72 +1,53 @@
 require './effect'
 
 module Turn
-  #自分のターンのメソッド。カード番号により分岐
-
-  def self.myturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, pcguard, card)
-    myguard = 0
-    mywiseman = 0
-
+  # ターンのメソッド。カード番号により分岐
+  def self.turn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, guard, card, hoge)
+    if hoge == 0
+      myguard = 0
+      mywiseman = 0
+    else
+      pcguard = 0
+      pcwiseman = 0
+      myhand, pchand = pchand, myhand
+    end
+  
     case card
     when 1
-      Effect.my_one(pcguard, mydiscard, pcdiscard, xeno, pchand)
+      Effect.one(guard, mydiscard, pcdiscard, xeno, pchand, myhand, hero, hoge)
     when 2
-      Effect.my_two(pcguard, mydiscard, pcdiscard, myhand, pchand)
+      # 入れ替えなし
+      myhand = pchand unless hoge == 0
+      Effect.two(guard, mydiscard, pcdiscard, myhand, pchand, hoge, xeno, hero)
     when 3
-      Effect.my_three(pcguard, pchand)
+      Effect.three(guard, pchand)
     when 4
       Effect.four
-      myguard = 1
+      hoge == 0 ? myguard = 1 : pcguard = 1
     when 5
-      Effect.my_five(pcguard, xeno, pchand, pcdiscard)
+      Effect.five(guard, xeno, pchand, hero, pcdiscard)
     when 6
-      Effect.my_six(pcguard, myhand, pchand)
+      # 入れ替えなし
+      myhand, pchand = pchand, myhand unless hoge == 0
+      Effect.six(guard, myhand, pchand)
     when 7
-      p mywiseman
       Effect.seven
-      mywiseman = 1
-      p mywiseman
+      hoge ? mywiseman = 1 : pcwiseman = 1
     when 8
-      Effect.my_eight(pcguard, myhand, pchand)
+      # 入れ替えなし
+      myhand, pchand = pchand, myhand unless hoge == 0
+      Effect.eight(guard, myhand, pchand)
     when 9
-      Effect.my_nine(pcguard, xeno, pchand, myhand, pcdiscard)
+      Effect.nine(guard, xeno, pchand, myhand, pcdiscard, hoge)
     else
       puts "エラーです"
     end
-    return myguard, mywiseman
-  end
-
-  #相手ターンのメソッド。カード番号により分岐。
-  def self.pcturn(myhand, pchand, xeno, hero, mydiscard, pcdiscard, myguard, input)
-    #相手がカードを引こうとして山札にカードがなかった場合、数字の大きさで勝敗を決する。
-    pcguard = 0
-    pcwiseman = 0
-
-    case input
-    when 1
-      Effect.pc_one(myguard, input, mydiscard, pcdiscard, xeno, myhand, hero)
-    when 2
-      Effect.pc_two(myguard, input, xeno, myhand, mydiscard, hero)
-    when 3
-      Effect.pc_three(myguard, input, myhand)
-    when 4
-      Effect.four
-      pcguard = 1
-    when 5
-      Effect.pc_five(myguard, input, xeno, myhand, hero, pcdiscard)
-    when 6
-      Effect.pc_six(myguard, input, myhand, pchand)
-    when 7
-      Effect.seven
-      pcwiseman = 1
-    when 8
-      Effect.pc_eight(myguard, input, myhand, pchand)
-    when 9
-      Effect.pc_nine(myguard, input, xeno, myhand, mydiscard)
+  
+    if hoge == 0
+      return myguard, mywiseman
     else
-      puts "エラーです"
+      return pcguard, pcwiseman
     end
-    return pcguard, pcwiseman
   end
 
   #山札にカードがなくなった場合のメソッド。これで決着。

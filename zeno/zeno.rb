@@ -26,8 +26,9 @@ pcwiseman = 0
 p "あなたが先攻です"
 
 while true
+   hoge = 0
+   p "--------#{hoge}--------"
   p "あなたのターンです"
-  p mywiseman
   #ここから自分のターンにループ。前回選んだカードが７番だった場合、賢者の効果を発動する。
   WiseMan.mywisemans(deck, myhand) if mywiseman == 1
 
@@ -83,11 +84,13 @@ while true
   mydiscard << myhand.delete_at(myhand.find_index(selected_number)) 
 
   #選んだカードの番号によって分岐が別れる
-  myguard, mywiseman = Turn.myturn(myhand, pchand, deck, hero, mydiscard, pcdiscard, pcguard, selected_number)
+  myguard, mywiseman = Turn.turn(myhand, pchand, deck, hero, mydiscard, pcdiscard, pcguard, selected_number, hoge)
 
   p 'あなたのターンは終了です'
   puts $line
 
+  hoge = 1
+  p "---------#{hoge}---------"
   #ここから相手のターン
   p '相手のターンです'
   Turn.decknone(myhand, pchand) if deck == []
@@ -102,7 +105,7 @@ while true
 
   selected_number = pchand.delete_at(pchand.find_index(pchand.min))
   pcdiscard << selected_number
-  pcguard, pcwiseman = Turn.pcturn(myhand, pchand, deck, hero, mydiscard, pcdiscard, myguard, selected_number)
+  pcguard, pcwiseman = Turn.turn(myhand, pchand, deck, hero, mydiscard, pcdiscard, myguard, selected_number, hoge)
 
   #山札のカードがなくなった場合、互いのカードの数字の大きさで勝敗を決める。
   Turn.decknone(myhand, pchand) if deck == []
